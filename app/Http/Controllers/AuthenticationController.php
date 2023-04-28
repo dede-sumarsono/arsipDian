@@ -42,6 +42,7 @@ class AuthenticationController extends Controller
 
     public function me(Request $request)
     {
+
         return response()->json(Auth::user());
     }
 }
