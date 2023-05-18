@@ -19,6 +19,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 });
 
 Route::get('/posts',[PostController::class,'index']);
+Route::get('/download/{file}',[PostController::class,'download_local']);
 
 Route::post('/login',[AuthenticationController::class,'login']);
 

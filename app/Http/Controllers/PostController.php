@@ -87,4 +87,17 @@ class PostController extends Controller
         }
         return $randomString;
     }
+
+    //mendapat kan file dari local storage
+    public function download_local(Request $request){
+        //dd("berhasil");
+        if (Storage::disk('local')->exists("document/$request->file")) {
+            $path = Storage::disk('local')->path("document/$request->file");
+            $content=file_get_contents($path);
+            return response($content)->withHeaders([
+                "Content-Type"=>mime_content_type($path)
+            ]);
+        }
+        return redirect('/404');
+    }
 }
