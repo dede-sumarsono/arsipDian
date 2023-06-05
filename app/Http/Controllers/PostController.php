@@ -32,6 +32,7 @@ class PostController extends Controller
 
     public function store(Request $request)
     {
+        //return $request->document;
         //dd(Auth::user());
         $validated = $request->validate([
             'atas_nama' => 'required|max:100',
@@ -49,10 +50,14 @@ class PostController extends Controller
             Storage::putFileAs('document', $request->file, $document);
         }
 
+        //dd($document);
+
         $request['document'] = $document;
         $request['user_id'] = Auth::user()->id;
         $post = Post::create($request->all());
         return new PostDetailResource($post->loadMissing('writer:id,username'));
+
+
     }
     
     public function update(Request $request, $id)
@@ -99,5 +104,23 @@ class PostController extends Controller
             ]);
         }
         return redirect('/404');
+    }
+
+    //filter tanggal date
+    public function filter(Request $request)
+    {   
+        $start_date = $request->start_date;
+        $end_date = $request->end_date;
+
+        $data =  Post::whereDate('created_at','>=',$start_date)
+                            ->whereDate('created_at','<=',$end_date)
+                            ->get();
+
+        //return new PostDetailResource($data->loadMissing('writer:id,username'));
+
+        //$posts = Post::all();
+        //return response()->json(['data' => $posts]);
+
+        return PostDetailResource::collection($data->loadMissing('writer:id,username'));
     }
 }

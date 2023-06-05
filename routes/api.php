@@ -12,6 +12,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     
     Route::post('/logout',[AuthenticationController::class,'logout']);
 
+    Route::get('/filter',[PostController::class,'filter']);
     //CRUD Post
     Route::post('/posts',[PostController::class,'store']);
     Route::patch('/posts/{id}',[PostController::class,'update'])->middleware('pemilik-postingan');
@@ -22,5 +23,6 @@ Route::get('/posts',[PostController::class,'index']);
 Route::get('/download/{file}',[PostController::class,'download_local']);
 
 Route::post('/login',[AuthenticationController::class,'login']);
+
 
 
