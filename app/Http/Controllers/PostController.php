@@ -112,15 +112,23 @@ class PostController extends Controller
         $start_date = $request->start_date;
         $end_date = $request->end_date;
 
-        $data =  Post::whereDate('created_at','>=',$start_date)
-                            ->whereDate('created_at','<=',$end_date)
+        //$data =  Post::whereDate('created_at','>=',$start_date)
+        //                    ->whereDate('created_at','<=',$end_date)
+        //                    ->get();
+        if ($start_date == "") {
+            $posts = Post::all();
+            return PostDetailResource::collection($posts->loadMissing('writer:id,username'));
+        }elseif ($end_date == "") {
+            $posts = Post::all();
+            return PostDetailResource::collection($posts->loadMissing('writer:id,username'));
+        }
+        else{
+        $data =  Post::whereDate('tanggal_pembuatan','>=',$start_date)
+                            ->whereDate('tanggal_pembuatan','<=',$end_date)
                             ->get();
 
-        //return new PostDetailResource($data->loadMissing('writer:id,username'));
-
-        //$posts = Post::all();
-        //return response()->json(['data' => $posts]);
-
         return PostDetailResource::collection($data->loadMissing('writer:id,username'));
+    
+        }
     }
 }
