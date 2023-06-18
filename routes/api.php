@@ -16,7 +16,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     //CRUD Post
     Route::post('/posts',[PostController::class,'store']);
     Route::patch('/posts/{id}',[PostController::class,'update'])->middleware('pemilik-postingan');
-    Route::delete('/posts/{id}',[PostController::class,'destroy'])->middleware('pemilik-postingan');
+    //Route::delete('/posts/{id}',[PostController::class,'destroy'])->middleware('pemilik-postingan');
+    Route::delete('/posts/{id}',[PostController::class,'destroy']);
+    Route::post('/hapus/{id}',[PostController::class,'hapus']);
 });
 
 Route::get('/posts',[PostController::class,'index']);

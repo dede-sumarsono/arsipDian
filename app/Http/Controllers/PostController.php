@@ -82,6 +82,13 @@ class PostController extends Controller
         return new PostDetailResource($post->loadMissing('writer:id,username'));
     }
 
+    public function hapus($id)
+    {
+        $post = Post::findOrFail($id);
+        $post->delete();
+
+        return new PostDetailResource($post->loadMissing('writer:id,username'));
+    }
 
     function generateRandomString($length = 30) {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
